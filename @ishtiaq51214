@@ -1,0 +1,206 @@
+
+//Binary tree implementation
+#include<iostream>
+using namespace std;
+#include<queue>
+#include<stack>
+class node
+{
+	public:
+		int data;
+		node* left;
+		node* right;
+		
+	node(int d)
+	{
+		this->data = d;
+		left=NULL;
+		right = NULL;
+	}	
+	
+};
+
+//Binaruy search tree implementation
+
+/*
+Node* insertRecursive(Node* root, int value) {
+    if (root == nullptr) {
+        return new Node(value);
+    }
+    if (value < root->data) {
+        root->left = insertRecursive(root->left, value);
+    } else if (value > root->data) {
+        root->right = insertRecursive(root->right, value);
+    }
+    return root;
+}
+*/
+
+node* BuildTree(node* &root)
+{
+	int data;
+	cout<<"Enter the data"<<endl;
+	cin>>data;
+	
+	if(data==-1)
+	{
+		return NULL;
+	}
+	
+	root = new node(data);
+	
+	
+	
+	cout<<"Enter the data to insert in the left of the  "<<data<<endl;
+	root->left = BuildTree(root->left);
+	
+	cout<<"Enter the data to insert in the right of the  "<<data<<endl;
+	root->right = BuildTree(root->right);
+	
+	return root;
+	
+}
+void LevelOrder(node* root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	
+	queue<node*> nqueue;
+	nqueue.push(root);
+	
+	while(!nqueue.empty())
+	{
+		node* temp = nqueue.front();
+		nqueue.pop();
+		
+		cout<<temp->data<<" ";
+		
+		if(temp->left!=NULL)
+		{
+			nqueue.push(temp->left);
+		}
+		
+		if(temp->right!=NULL)
+		{
+			nqueue.push(temp->right);
+		}
+		
+		
+	}
+	
+}
+
+void ReverseLevelOrderTree(node* root)
+{
+	
+	if(root==NULL)
+	{
+		return;
+	}
+	
+	queue<node*> nqueue;
+	nqueue.push(root);
+	stack<node*> nstack;
+	
+	while(!nqueue.empty())
+	{
+		node* temp = nqueue.front();
+		nqueue.pop();
+	nstack.push(temp);
+		
+		
+		
+		if(temp->left!=NULL)
+		{
+			nqueue.push(temp->left);
+		}
+		
+		if(temp->right!=NULL)
+		{
+			nqueue.push(temp->right);
+		}
+		
+		
+	}
+	
+	// Now Stack print to be in reverse order
+	
+	while(!nstack.empty())
+	{
+		node* temp2 = nstack.top();
+		nstack.pop();
+		cout<<temp2->data<<" ";
+		
+	}
+	
+	
+}
+
+void InOrder(node* root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	
+	InOrder(root->left);
+	cout<<root->data<<" ";
+	InOrder(root->right);
+	
+}
+
+void PreOrder(node* root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	
+	cout<<root->data<<" ";
+	PreOrder(root->left);
+	PreOrder(root->right);
+	
+}
+
+void PostOrder(node* root)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	
+	PostOrder(root->left);
+	PostOrder(root->right);
+	cout<<root->data<<" ";
+}
+
+int main()
+{
+	node* root = NULL;
+	BuildTree(root);
+	
+//	The LevelOrder 
+	cout<<endl<<endl<<"The Levelorder "<<endl<<endl;
+	LevelOrder(root);
+	
+//	The Reversed Levelorder Tree
+	cout<<endl<<endl<<"The Reversed Levelorder Tree is"<<endl<<endl;	
+	ReverseLevelOrderTree(root);
+
+	
+//  The Inorder	
+	cout<<endl<<endl<<"The Inorder "<<endl<<endl;
+	InOrder(root);
+	
+//	The Preorder
+	cout<<endl<<endl<<"The Preorder "<<endl<<endl;
+	PreOrder(root);
+
+//The Postorder	
+	cout<<endl<<endl<<"The Postorder "<<endl<<endl;
+	PostOrder(root);
+
+	
+}
